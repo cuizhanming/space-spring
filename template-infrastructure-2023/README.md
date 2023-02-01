@@ -1,0 +1,23 @@
+## Linode Personal access token
+
+export TF_VAR_linode_api_token=04565497fcdb6a0a5349a7d530c65d6a49ec3c3cf19bc79f0cdb8a291dc4a802
+
+## Terraform 
+
+- [Terraform Provider - Linode](https://registry.terraform.io/providers/linode/linode/latest/docs)
+- [Using LKS storage as Terraform backend](https://dev.to/itmecho/setting-up-linode-object-storage-as-a-terraform-backend-1ocb)
+
+```shell
+terraform plan -var-file="terraform.tfvars" --parallelism=1
+
+terraform apply -var-file="terraform.tfvars" --parallelism=1
+```
+
+
+
+
+## K8s output
+
+```shell
+export KUBE_VAR=`terraform output kubeconfig` && echo $KUBE_VAR | base64 -di > lke-cluster-config.yaml
+```
