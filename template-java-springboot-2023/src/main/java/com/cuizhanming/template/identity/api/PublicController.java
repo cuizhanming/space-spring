@@ -1,7 +1,7 @@
 package com.cuizhanming.template.identity.api;
 
-import com.cuizhanming.template.common.ListDTO;
-import com.cuizhanming.template.identity.entity.dto.request.PublicRequestCreationDTO;
+import com.cuizhanming.template.identity.entity.dto.common.ListDTO;
+import com.cuizhanming.template.identity.entity.dto.request.PublicRequestCreateDTO;
 import com.cuizhanming.template.identity.entity.dto.request.PublicRequestUpdateDTO;
 import com.cuizhanming.template.identity.entity.dto.response.PublicResponseDTO;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 public class PublicController {
 
     @PostMapping
-    public ResponseEntity<PublicResponseDTO> createIdentity(@RequestBody PublicRequestCreationDTO requestCreateDTO) {
+    public ResponseEntity<PublicResponseDTO> createIdentity(@RequestBody PublicRequestCreateDTO requestCreateDTO) {
         return null;
     }
 

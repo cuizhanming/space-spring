@@ -9,12 +9,13 @@ export TF_VAR_linode_api_token=04565497fcdb6a0a5349a7d530c65d6a49ec3c3cf19bc79f0
 
 ```shell
 terraform plan -var-file="terraform.tfvars" --parallelism=1
-
 terraform apply -var-file="terraform.tfvars" --parallelism=1
 ```
 
-
-
+### TF Backend .tfstate store
+Since Linode storage is seamless api as AWS S3, we are configuring it as `S3` resource in `backend.tf` file. 
+The Linode object storage for this state, can be created manually in advance. 
+Or through TF too which is setup in `init-state` folder, to be separated from the main project folder.
 
 ## K8s output
 

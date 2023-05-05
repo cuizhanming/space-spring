@@ -1,4 +1,4 @@
-package com.cuizhanming.template.common;
+package com.cuizhanming.template.identity.entity.dto.common;
 
 import java.util.List;
 

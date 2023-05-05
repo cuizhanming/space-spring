@@ -1,0 +1,452 @@
+{
+	"info": {
+		"name": "multiple-data-source",
+		"_postman_id": "1363b701-a9c4-416c-a4f7-1d0788f53978",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "PostKey",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e01ed328-6673-4583-98ac-f63276e2e442",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Create Credential\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.environment.set(\"cid1\", jsonData.id);",
+							"});",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accessKey\": \"ACCESS_KEY\",\n    \"secretKey\": \"ACCESS_SECRET_KEY\",\n    \"certificate\": null,\n    \"privateKey\": null\n}"
+				},
+				"url": {
+					"raw": "{{hostname}}/api/credential",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"credential"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "PostKey /data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1b863cd2-95c6-4db4-ba75-b35338a0a3a8",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Create Credential\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.environment.set(\"cid2\", jsonData.id);",
+							"});",
+							"",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accessKey\": \"ACCESS_KEY\",\n    \"secretKey\": \"ACCESS_SECRET_KEY\",\n    \"certificate\": null,\n    \"privateKey\": null\n}"
+				},
+				"url": {
+					"raw": "{{hostname}}/data/credential",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"data",
+						"credential"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GetKeysById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "316659bc-5199-4d4c-9f92-c6ce3521a845",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"pm.test(\"Verify response value\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"cid1\"));",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{hostname}}/api/credential/{{cid1}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"credential",
+						"{{cid1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GetKeysById /data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9e8f2af2-c74c-4306-8f4a-cc9f6c4d2b50",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							"pm.test(\"Verify response value\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"cid2\"));",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{hostname}}/data/credential/{{cid2}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"data",
+						"credential",
+						"{{cid2}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GetKeysAll",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dcd41f9d-2903-4ac9-b16e-166472a82ed3",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{hostname}}/api/credentials",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"credentials"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "GetKeysAll /data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "dcd41f9d-2903-4ac9-b16e-166472a82ed3",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Response time is less than 200ms\", function () {",
+							"    pm.expect(pm.response.responseTime).to.be.below(200);",
+							"});",
+							"",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{hostname}}/data/credentials",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"data",
+						"credentials"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateKeyById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "fc0a91d0-8d92-466d-92bb-d75d3a8e925e",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Update Credential\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"cid1\"));",
+							"    pm.expect(jsonData.accessKey).to.eql(\"ACCESS_KEY\");",
+							"    pm.expect(jsonData.secretKey).to.eql(\"ACCESS_SECRET_KEY\");",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accessKey\": \"ACCESS_KEY\",\n    \"secretKey\": \"ACCESS_SECRET_KEY\",\n    \"certificate\": null,\n    \"privateKey\": null\n}"
+				},
+				"url": {
+					"raw": "{{hostname}}/api/credentials/{{cid1}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"credentials",
+						"{{cid1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "UpdateKeyById /data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "6701bb87-e624-49c2-9c8b-8eff33741c62",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"pm.test(\"Update Credential\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.id).to.eql(pm.environment.get(\"cid2\"));",
+							"    pm.expect(jsonData.accessKey).to.eql(\"ACCESS_KEY\");",
+							"    pm.expect(jsonData.secretKey).to.eql(\"ACCESS_SECRET_KEY\");",
+							"});",
+							""
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"accessKey\": \"ACCESS_KEY\",\n    \"secretKey\": \"ACCESS_SECRET_KEY\",\n    \"certificate\": null,\n    \"privateKey\": null\n}"
+				},
+				"url": {
+					"raw": "{{hostname}}/data/credentials/{{cid2}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"data",
+						"credentials",
+						"{{cid2}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteKeyById",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b82385b-8663-488a-88a8-f654363b0e9a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{hostname}}/api/credentials/{{cid1}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"api",
+						"credentials",
+						"{{cid1}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		},
+		{
+			"name": "DeleteKeyById /data",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9b82385b-8663-488a-88a8-f654363b0e9a",
+						"type": "text/javascript",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});"
+						]
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "{{hostname}}/data/credentials/{{cid2}}",
+					"host": [
+						"{{hostname}}"
+					],
+					"path": [
+						"data",
+						"credentials",
+						"{{cid2}}"
+					]
+				},
+				"description": ""
+			},
+			"response": []
+		}
+	]
+}
