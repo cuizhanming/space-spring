@@ -9,14 +9,21 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class TemplateKotlinSpringboot2023ApplicationTests (@Autowired val cr: CustomRepository) {
+class TemplateKotlinSpringboot2023ApplicationTests (@Autowired val customRepository: CustomRepository) {
 
 	@Test
-	fun contextLoads() = runBlocking {
-		cr.save(Customer(null, "Foo"))
-		val customers = cr.findAll()
+	fun test1() = runBlocking {
+		customRepository.save(Customer(null, "Foo"))
+		val customers = customRepository.findAll()
 		Assertions.assertEquals(5, customers.count())
 		Assertions.assertNotNull(customers.last().id)
 	}
 
+	@Test
+	fun test2() = runBlocking {
+		customRepository.save(Customer(null, "Foo"))
+		val customers = customRepository.findAll()
+		Assertions.assertEquals(6, customers.count())
+		Assertions.assertNotNull(customers.last().id)
+	}
 }

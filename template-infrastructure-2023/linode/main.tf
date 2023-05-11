@@ -1,10 +1,10 @@
 terraform {
-  required_version = ">= 1.3.7"
+  required_version = ">= 1.4.6"
   required_providers {
     linode = {
       source = "linode/linode"
       # https://registry.terraform.io/providers/linode/linode/latest
-      version = "1.29.4"
+      version = "2.1.0"
     }
   }
 }
