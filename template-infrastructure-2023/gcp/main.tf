@@ -6,3 +6,10 @@ terraform {
     }
   }
 }
+
+terraform {
+  backend "gcs" {
+    bucket  = "virtual-dogfish-387208-tfstate"
+    prefix  = "terraform/state"
+  }
+}
