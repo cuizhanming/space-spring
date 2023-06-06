@@ -28,14 +28,14 @@ if [[ ${ZONE} ]]; then
 fi
 
 # Enable APIs
-gcloud services enable compute.googleapis.com
-gcloud services enable iam.googleapis.com
+#gcloud services enable compute.googleapis.com
+#gcloud services enable iam.googleapis.com
 
 # Create a storage bucket for Terraform state
-if [[ ${BUCKET} ]]; then
-  echo "Creating bucket for Terraform remote state"
-  gcloud storage buckets create gs://${PROJECT_ID}-${BUCKET} --location=${REGION} --project=${PROJECT_ID}
-fi
+#if [[ ${BUCKET} ]]; then
+#  echo "Creating bucket for Terraform remote state"
+#  gcloud storage buckets create gs://${PROJECT_ID}-${BUCKET} --location=${REGION} --project=${PROJECT_ID}
+#fi
 
 #echo "Creating service account for Terraform"
 #SA_NAME="terraform-service-account"

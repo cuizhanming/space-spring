@@ -6,4 +6,9 @@ variable "instance_image" {
 }
 variable "instance_name" {}
 variable "instance_zone" {}
-variable "instance_network" {}
+variable "instance_network" {
+  default = "default"
+}
+variable "instance_subnetwork" {
+  default = "default"
+}

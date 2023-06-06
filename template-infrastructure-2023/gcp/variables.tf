@@ -11,8 +11,3 @@ variable "zone" {
   description = "GCP Zone. (required) Can load from env variable `TF_VAR_zone` or config file (~/.config/gcp)"
   default     = "europe-west4-c"
 }
-
-#variable "gcp_credential" {
-#  description = "GCP Credential File. (required) Can load from env variable `TF_VAR_gcp_credential` or config file (~/.config/gcp)"
-#  default     = "~/.gcp/terraform.json"
-#}

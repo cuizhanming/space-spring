@@ -3,34 +3,7 @@
 ### GCP Service Account Key
 
 ```shell
-PROJECT_ID=soy-envelope-386316
-REGION=us-central1
-ZONE=us-central1-a
-gcloud config set project $PROJECT_ID
-gcloud config set compute/region $REGION
-gcloud config set compute/zone $ZONE
-
-# Login to GCP
-gcloud auth login
-
-# List login, set default account
-gcloud auth list
-gcloud config set account `LOGIN_ACCOUNT`
-
-# Create service account
-SA_NAME=terraform-$PROJECT_ID
-gcloud iam service-accounts create $SA_NAME --description="Used for Terraform provisioning" --display-name="Terraform"
-
-# Grant service account role/editor
-gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member="serviceAccount:$SA_NAME@$PROJECT_ID.iam.gserviceaccount.com" \
-    --role="roles/editor"
-    
-# Create service account key
-mkdir -p ~/.gcp
-KEY_FILE=~/.gcp/terraform-gcp.json
-gcloud iam service-accounts keys create $KEY_FILE --iam-account=$SA_NAME@$PROJECT_ID.iam.gserviceaccount.com"
-
+gcloud auth application-default login
 ```
 
 ### Linode Personal access token
