@@ -3,6 +3,14 @@
 ### GCP Service Account Key
 
 ```shell
+PROJECT_ID=soy-envelope-386316
+REGION=us-central1
+ZONE=us-central1-a
+gcloud config set project $PROJECT_ID
+gcloud config set compute/region $REGION
+gcloud config set compute/zone $ZONE
+
+# Login as application
 gcloud auth application-default login
 ```
 
