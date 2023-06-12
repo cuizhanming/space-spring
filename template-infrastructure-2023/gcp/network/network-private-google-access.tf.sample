@@ -1,5 +1,5 @@
 #################################
-# Create CUSTOM mode VPC network
+# Create CUSTOM mode VPC network - managementnet
 #################################
 resource "google_compute_network" "privatenet" {
   name = "privatenet"
@@ -11,7 +11,7 @@ resource "google_compute_network" "privatenet" {
 resource "google_compute_subnetwork" "privatenet-us" {
   name          = "privatenet-us"
   ip_cidr_range = "10.130.0.0/20"
-  region        = var.region
+  region        = "us-central1"
   network       = google_compute_network.privatenet.id
   private_ip_google_access = true
 }
@@ -27,15 +27,13 @@ resource "google_compute_firewall" "privatenet-allow-ssh" {
   source_ranges = ["35.235.240.0/20"]
 }
 
-#################################
-# Create VM instance in VPC network
-#################################
+# Create the managementnet-us-vm instance
 module "vm-internal" {
   source           = "./instance"
   instance_name    = "vm-internal"
   instance_type    = "n1-standard-1"
   instance_image   = "debian-cloud/debian-11"
-  instance_zone    = var.zone
+  instance_zone    = "us-central1-c"
   instance_network = google_compute_network.privatenet.self_link
   instance_subnetwork = google_compute_subnetwork.privatenet-us.self_link
 }

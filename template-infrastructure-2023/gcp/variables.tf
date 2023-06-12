@@ -1,5 +1,6 @@
 variable "project_id" {
   description = "GCP Project ID. (required) Can load from env variable `TF_VAR_project_id` or config file (~/.config/gcp)"
+  default     = "my-project-id"
 }
 
 variable "region" {

@@ -31,7 +31,7 @@ resource "google_compute_firewall" "managementnet-allow-icmp-ssh-rdp" {
 
 # Create the managementnet-us-vm instance
 module "managementnet-us-vm" {
-  source           = "./instance"
+  source           = "../instance"
   instance_type    = "e2-micro"
   instance_image   = "debian-cloud/debian-11"
   instance_name    = "managementnet-us-vm"
@@ -78,7 +78,7 @@ resource "google_compute_firewall" "privatenet-allow-icmp-ssh-rdp" {
 }
 
 module "privatenet-us-vm" {
-  source           = "./instance"
+  source           = "../instance"
   instance_type    = "e2-micro"
   instance_image   = "debian-cloud/debian-11"
   instance_name    = "privatenet-us-vm"
@@ -87,7 +87,7 @@ module "privatenet-us-vm" {
   instance_subnetwork = google_compute_subnetwork.privatenet-subnet-us.self_link
 }
 module "privatenet-eu-vm" {
-  source           = "./instance"
+  source           = "../instance"
   instance_type    = "e2-micro"
   instance_image   = "debian-cloud/debian-11"
   instance_name    = "privatenet-eu-vm"
