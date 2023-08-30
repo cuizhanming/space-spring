@@ -10,7 +10,6 @@ import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Bean
 import org.springframework.data.annotation.Id
 import org.springframework.data.repository.kotlin.CoroutineCrudRepository
-import org.springframework.data.repository.reactive.ReactiveCrudRepository
 import org.springframework.web.reactive.function.server.bodyAndAwait
 import org.springframework.web.reactive.function.server.bodyValueAndAwait
 import org.springframework.web.reactive.function.server.buildAndAwait
