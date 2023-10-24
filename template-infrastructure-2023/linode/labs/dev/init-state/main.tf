@@ -4,7 +4,7 @@ terraform {
     linode = {
       source = "linode/linode"
       # https://registry.terraform.io/providers/linode/linode/latest
-      version = "1.29.4"
+      version = "2.9.1"
     }
   }
 }
@@ -17,7 +17,7 @@ data "linode_object_storage_cluster" "primary" {
   id = "eu-central-1"
 }
 
-resource "linode_object_storage_bucket" "tf_state" {
+resource "linode_object_storage_bucket" "tf_state_202310231216" {
   cluster = data.linode_object_storage_cluster.primary.id
-  label   = "infra-tf-state"
+  label   = "infra-tf-state-20231023"
 }
