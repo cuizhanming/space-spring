@@ -9,7 +9,7 @@ env:
   TF_CLOUD_ORGANIZATION: "cuizhanming-com"
   TF_API_TOKEN: "${{ secrets.TF_API_TOKEN }}"
   TF_WORKSPACE: "infrastructure-template-linode"
-  CONFIG_DIRECTORY: "./"
+  CONFIG_DIRECTORY: "./template-infrastructure-2023/linode/labs/dev"
 
 jobs:
   terraform:
