@@ -1,10 +1,11 @@
 terraform {
-  required_version = ">= 1.4.6"
+  # https://releases.hashicorp.com/terraform/
+  required_version = ">= 1.6.2"
   required_providers {
     linode = {
       source = "linode/linode"
       # https://registry.terraform.io/providers/linode/linode/latest
-      version = "2.9.2"
+      version = "2.9.3"
     }
   }
 }
@@ -14,7 +15,7 @@ provider "linode" {
 }
 
 module "k8s" {
-  source            = "../../modules/k8s"
+  source            = "./modules/k8s"
   label             = var.resources_label
   tags              = var.resources_tags
   k8s_version       = var.k8s_version
@@ -24,7 +25,7 @@ module "k8s" {
 }
 
 module "firewall" {
-  source            = "../../modules/firewall"
+  source            = "./modules/firewall"
   label             = var.resources_label
   tags              = var.resources_tags
   depends_on        = [ module.k8s.k8s_nodes_ids ]
@@ -34,7 +35,7 @@ module "firewall" {
 }
 
 module "dns" {
-  source            = "../../modules/dns"
+  source            = "./modules/dns"
   tags              = var.resources_tags
   base_domain       = var.dns_base_domain
   domain_name       = var.dns_domain_name
