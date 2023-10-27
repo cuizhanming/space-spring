@@ -1,11 +1,11 @@
 terraform {
   # https://releases.hashicorp.com/terraform/
-  required_version = ">= 1.6.2"
+  required_version = ">= 1.4.6"
   required_providers {
     linode = {
       source = "linode/linode"
       # https://registry.terraform.io/providers/linode/linode/latest
-      version = "2.9.3"
+      version = "2.9.2"
     }
   }
 }
