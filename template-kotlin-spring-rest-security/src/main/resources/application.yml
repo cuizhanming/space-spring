@@ -1,0 +1,17 @@
+jwt:
+  key: ${JWT_KEY:secretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecretsecret}
+  access-token-validity-seconds: 3600000
+  refresh-token-validity-seconds: 86400000
+logging:
+  level:
+    root: debug
+
+server:
+  port: 8080
+
+spring:
+  application:
+    name: template-kotlin-spring-security
+  graphql:
+    graphiql:
+      enabled: true

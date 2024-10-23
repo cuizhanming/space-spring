@@ -1,8 +1,0 @@
-spring.application.name: template-kotlin-spring-security
-jwt:
-  key: ${JWT_KEY:secret}
-  access-token-validity-seconds: 3600000
-  refresh-token-validity-seconds: 86400000
-logging:
-  level:
-    root: debug
