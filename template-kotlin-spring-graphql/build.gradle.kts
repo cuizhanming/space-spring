@@ -7,7 +7,7 @@ plugins {
 	id("org.graalvm.buildtools.native") version "0.10.3"
 }
 
-group = "com.cuizhanming"
+group = "com.cuizhanming.template"
 version = "0.0.1-SNAPSHOT"
 
 java {
