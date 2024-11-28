@@ -3,7 +3,7 @@ terraform {
     linode = {
       source  = "linode/linode"
       # https://registry.terraform.io/providers/linode/linode/latest
-      version = "2.9.2"
+      version = "2.31.1"
     }
   }
 }

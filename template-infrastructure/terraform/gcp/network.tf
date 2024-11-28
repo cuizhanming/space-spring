@@ -31,7 +31,7 @@ resource "google_compute_firewall" "privatenet-allow-ssh" {
 # Create VM instance in VPC network
 #################################
 module "vm-internal" {
-  source           = "./instance"
+  source           = "instance"
   instance_name    = "vm-internal"
   instance_type    = "n1-standard-1"
   instance_image   = "debian-cloud/debian-11"

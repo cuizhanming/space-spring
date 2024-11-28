@@ -1,23 +1,16 @@
-resources_label = "dev"
+resources_label = "cui-guru"
 resources_tags = ["dev"]
 
-k8s_version = "1.27"
-k8s_region = "eu-west"
-k8s_ha = true
+k8s_version = "1.31"
+k8s_region = "gb-lon"
+k8s_ha = false
 k8s_pools = [
   {
     # https://api.linode.com/v4/linode/types
-    type = "g6-standard-1"
-    count = 1
-    min = 1
-    max = 3
-  },
-  {
-    # https://api.linode.com/v4/linode/types
     type : "g6-standard-2"
-    count : 1
-    min : 1
-    max : 3
+    count : 3
+    min : 3
+    max : 6
   }
 ]
 

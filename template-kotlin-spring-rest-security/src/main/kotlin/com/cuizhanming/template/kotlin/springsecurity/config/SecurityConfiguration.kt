@@ -28,6 +28,7 @@ class SecurityConfiguration (
             .authorizeHttpRequests {
                 it
                     .requestMatchers("api/auth", "api/auth/refresh", "/error").permitAll()
+                    .requestMatchers( "/api/articles").permitAll()
                     .requestMatchers(POST, "/api/users").permitAll()
                     .requestMatchers("/api/users**").hasRole("ADMIN")
 //                    .requestMatchers("/graphiql", "/altair").permitAll()

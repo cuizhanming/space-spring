@@ -1,11 +1,29 @@
+terraform {
+  required_providers {
+    linode = {
+      source  = "linode/linode"
+      # https://registry.terraform.io/providers/linode/linode/latest
+      version = "2.31.1"
+    }
+  }
+}
+
 resource "linode_lke_cluster" "kube-cluster" {
-  label       = "cluster-${var.label}"
-  tags        = var.tags
   k8s_version = var.k8s_version
   region      = var.region
+  label       = var.label
+  tags        = var.tags
 
   control_plane {
     high_availability = var.high_availability
+
+    acl {
+      enabled = true
+      addresses {
+        ipv4 = ["37.228.208.87"]
+        ipv6 = ["2a02:8084:8182:8580::/64"]
+      }
+    }
   }
 
   dynamic "pool" {
@@ -36,7 +54,6 @@ data "linode_instances" "k8s_nodes" {
 }
 
 //Export this cluster's attributes
-
 output "k8s_ips" {
   value = data.linode_instances.k8s_nodes.instances.*.private_ip_address
 }
@@ -45,9 +62,15 @@ output "k8s_nodes_ids" {
   value = data.linode_instances.k8s_nodes.instances.*.id
 }
 
+// how to use this in kubernetes config_path?
+
 output "kubeconfig" {
-  value     = linode_lke_cluster.kube-cluster.kubeconfig
+  value     = base64decode(linode_lke_cluster.kube-cluster.kubeconfig)
   sensitive = true
+}
+
+output "kubeconfig_trial" {
+  value = base64decode("YTpiCg==")
 }
 
 output "api_endpoints" {

@@ -36,5 +36,5 @@ build/
 .vscode/
 
 ### Linode ###
-./linode/lke-cluster-config.yaml
+terraform/linode/lke-cluster-config.yaml
 

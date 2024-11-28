@@ -7,6 +7,19 @@ import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
 import java.util.*
 
+
+data class Article (
+    var id: UUID,
+    val title: String,
+    val content: String
+)
+
+data class ArticleResponse (
+    val id: UUID,
+    val title: String,
+    val content: String
+)
+
 @RestController
 @RequestMapping("/api/articles")
 class ArticleController (
@@ -76,15 +89,3 @@ class ArticleRepository {
         articles.removeIf { it.id == id }
     }
 }
-
-data class Article (
-    var id: UUID,
-    val title: String,
-    val content: String
-)
-
-data class ArticleResponse (
-    val id: UUID,
-    val title: String,
-    val content: String
-)
