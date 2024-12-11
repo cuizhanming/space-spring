@@ -2,21 +2,24 @@ package com.cuizhanming.template.ai.templatespringai.services;
 
 import org.springframework.ai.audio.transcription.AudioTranscriptionPrompt;
 import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
+import org.springframework.ai.model.Media;
 import org.springframework.ai.openai.*;
 import org.springframework.ai.openai.api.OpenAiAudioApi;
 import org.springframework.ai.openai.api.OpenAiImageApi;
 import org.springframework.ai.openai.audio.speech.SpeechPrompt;
 import org.springframework.ai.openai.audio.speech.SpeechResponse;
+import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
@@ -130,5 +133,20 @@ public class OpenAIService {
                 .chatResponse();
 
         return response.getResult().getOutput().getContent();
+    }
+
+    /**
+     * MultiModality API
+     * <a href="https://docs.spring.io/spring-ai/reference/api/multimodality.html">Spring AI MultiModality API</a>
+     **/
+    public AssistantMessage multimodalAudioAndText(byte[] userAudioInput) {
+        UserMessage userMessage = new UserMessage("Please answer the questions in the audio input",
+                new Media(MediaType.parseMediaType("audio/wav"), new ByteArrayResource(userAudioInput)));
+        return chatClient.prompt()
+                .messages(userMessage)
+                .call()
+                .chatResponse()
+                .getResult()
+                .getOutput();
     }
 }
