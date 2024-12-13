@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Description;
 import java.util.function.Function;
 
 @Configuration
-public class FunctionsConfig {
+public class FunctionCallConfig {
 
     @Bean
     @Description("This is a function that returns the weather in given location.")

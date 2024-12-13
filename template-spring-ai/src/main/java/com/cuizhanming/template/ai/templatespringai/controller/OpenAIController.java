@@ -1,21 +1,9 @@
 package com.cuizhanming.template.ai.templatespringai.controller;
 
 import com.cuizhanming.template.ai.templatespringai.services.OpenAIService;
-import org.springframework.ai.chat.client.ChatClient;
-import org.springframework.ai.chat.messages.UserMessage;
-import org.springframework.ai.chat.model.ChatResponse;
-import org.springframework.ai.chat.prompt.Prompt;
-import org.springframework.ai.openai.OpenAiAudioTranscriptionOptions;
-import org.springframework.ai.openai.OpenAiChatOptions;
-import org.springframework.ai.openai.api.OpenAiAudioApi;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/openai")
@@ -55,5 +43,14 @@ public class OpenAIController {
     @GetMapping(value = "/function")
     public String function(@RequestParam(value = "message", defaultValue = "What's the weather in Dublin today?") String message) {
         return openAIService.callFunction(message);
+    }
+
+    @PostMapping(value = "/document2vector")
+    public String uploadDocumentToVectorStore(@RequestParam("fileToUpload") MultipartFile document) {
+        return openAIService.uploadDocumentToVectorStore(document);
+    }
+    @GetMapping(value = "/document2vector/similarity")
+    public String checkSimilarity(@RequestParam(value = "message", defaultValue = "What's the weather in Dublin today?") String message) {
+        return openAIService.checkSimilarity(message);
     }
 }

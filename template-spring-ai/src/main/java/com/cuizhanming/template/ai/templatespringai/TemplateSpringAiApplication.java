@@ -7,7 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.ByteArrayResource;
 
 import java.util.Scanner;
 
@@ -41,8 +40,8 @@ public class TemplateSpringAiApplication {
 
                     // Print the text (e.g. transcription) response
                     System.out.println("\nASSISTANT: " + response.getContent());
-                    // Play the audio response
-                    Audio.play(response.getMedia().get(0).getDataAsByteArray());
+                    // Play the audio response, NOT release in M4 yet
+                    // Audio.play(response.getMedia().get(0).getDataAsByteArray());
                 }
             }
 

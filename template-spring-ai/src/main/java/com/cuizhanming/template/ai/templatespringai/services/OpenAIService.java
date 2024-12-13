@@ -6,6 +6,7 @@ import org.springframework.ai.chat.messages.AssistantMessage;
 import org.springframework.ai.chat.messages.UserMessage;
 import org.springframework.ai.chat.model.ChatResponse;
 import org.springframework.ai.chat.prompt.Prompt;
+import org.springframework.ai.document.Document;
 import org.springframework.ai.image.ImagePrompt;
 import org.springframework.ai.image.ImageResponse;
 import org.springframework.ai.model.Media;
@@ -14,16 +15,22 @@ import org.springframework.ai.openai.api.OpenAiAudioApi;
 import org.springframework.ai.openai.api.OpenAiImageApi;
 import org.springframework.ai.openai.audio.speech.SpeechPrompt;
 import org.springframework.ai.openai.audio.speech.SpeechResponse;
+import org.springframework.ai.reader.tika.TikaDocumentReader;
+import org.springframework.ai.transformer.splitter.TokenTextSplitter;
+import org.springframework.ai.vectorstore.SearchRequest;
+import org.springframework.ai.vectorstore.VectorStore;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 import reactor.core.publisher.Flux;
 
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class OpenAIService {
@@ -33,12 +40,14 @@ public class OpenAIService {
             """;
 
     private final ChatClient chatClient;
+    private final VectorStore vectorStore;
     private final OpenAiImageModel openAiImageModel;
     private final OpenAiAudioTranscriptionModel openAiAudioTranscriptionModel;
     private final OpenAiAudioSpeechModel openAiAudioSpeechModel;
 
-    public OpenAIService(ChatClient chatClient, OpenAiImageModel openAiImageModel, OpenAiAudioTranscriptionModel openAiAudioTranscriptionModel, OpenAiAudioSpeechModel openAiAudioSpeechModel) {
+    public OpenAIService(ChatClient chatClient, VectorStore vectorStore, OpenAiImageModel openAiImageModel, OpenAiAudioTranscriptionModel openAiAudioTranscriptionModel, OpenAiAudioSpeechModel openAiAudioSpeechModel) {
         this.chatClient = chatClient;
+        this.vectorStore = vectorStore;
         this.openAiImageModel = openAiImageModel;
         this.openAiAudioTranscriptionModel = openAiAudioTranscriptionModel;
         this.openAiAudioSpeechModel = openAiAudioSpeechModel;
@@ -148,5 +157,21 @@ public class OpenAIService {
                 .chatResponse()
                 .getResult()
                 .getOutput();
+    }
+
+    public String uploadDocumentToVectorStore(MultipartFile document) {
+        var tikaDocumentReader = new TikaDocumentReader(document.getResource());
+        // uses CL100K_BASE encoding from jtokkit library
+        var defaultSplitter = new TokenTextSplitter();
+        //var customSplitter = new TokenTextSplitter(1000, 400, 10, 5000, true);
+        vectorStore.write(defaultSplitter.split(tikaDocumentReader.read()));
+        return "ok";
+    }
+
+    public String checkSimilarity(String message) {
+        return vectorStore.similaritySearch(message).stream().map(Document::getMetadata)
+                // convert metadata to key:value pairs
+                .flatMap(m -> m.entrySet().stream().map(e -> e.getKey() + " : " + e.getValue()))
+                .collect(Collectors.joining("\n"));
     }
 }
