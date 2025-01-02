@@ -83,12 +83,12 @@ public class OpenAIService {
     public String audio2text() {
         var transcriptionOptions = OpenAiAudioTranscriptionOptions.builder()
                 // translate the audio to specified language
-                .withLanguage("en")
-                .withPrompt("Transcribe the following audio")
-                //.withGranularityType(OpenAiAudioApi.TranscriptionRequest.GranularityType.WORD)
-                .withResponseFormat(OpenAiAudioApi.TranscriptResponseFormat.TEXT)
-                .withTemperature(0f)
-                .withModel(OpenAiAudioApi.WhisperModel.WHISPER_1.getValue())
+                .language("en")
+                .prompt("Transcribe the following audio")
+//                .granularityType(OpenAiAudioApi.TranscriptionRequest.GranularityType.WORD)
+                .responseFormat(OpenAiAudioApi.TranscriptResponseFormat.TEXT)
+                .temperature(0f)
+                .model(OpenAiAudioApi.WhisperModel.WHISPER_1.getValue())
                 .build();
 
         var audioFile = new ClassPathResource("audio/countdown.mp3");
@@ -100,10 +100,10 @@ public class OpenAIService {
 
     public String text2audio(String userMessage) {
         OpenAiAudioSpeechOptions speechOptions = OpenAiAudioSpeechOptions.builder()
-                .withModel(OpenAiAudioApi.TtsModel.TTS_1.value)
-                .withVoice(OpenAiAudioApi.SpeechRequest.Voice.ALLOY)
-                .withResponseFormat(OpenAiAudioApi.SpeechRequest.AudioResponseFormat.MP3)
-                .withSpeed(1.0f)
+                .model(OpenAiAudioApi.TtsModel.TTS_1.value)
+                .voice(OpenAiAudioApi.SpeechRequest.Voice.ALLOY)
+                .responseFormat(OpenAiAudioApi.SpeechRequest.AudioResponseFormat.MP3)
+                .speed(1.0f)
                 .build();
 
         SpeechPrompt prompt = new SpeechPrompt(userMessage, speechOptions);
@@ -132,8 +132,8 @@ public class OpenAIService {
 
         UserMessage userMessage = new UserMessage(message);
         OpenAiChatOptions options = OpenAiChatOptions.builder()
-                .withFunction("weatherApi")
-                .withModel("gpt-4o-mini")
+                .function("weatherApi")
+                .model("gpt-4o-mini")
                 .build();
         Prompt prompt = new Prompt(List.of(userMessage), options);
 
@@ -162,9 +162,9 @@ public class OpenAIService {
     public String uploadDocumentToVectorStore(MultipartFile document) {
         var tikaDocumentReader = new TikaDocumentReader(document.getResource());
         // uses CL100K_BASE encoding from jtokkit library
-        var defaultSplitter = new TokenTextSplitter();
-        //var customSplitter = new TokenTextSplitter(1000, 400, 10, 5000, true);
-        vectorStore.write(defaultSplitter.split(tikaDocumentReader.read()));
+        //var splitter = new TokenTextSplitter();
+        var splitter = new TokenTextSplitter(1000, 400, 10, 5000, true);
+        vectorStore.write(splitter.split(tikaDocumentReader.read()));
         return "ok";
     }
 

@@ -28,16 +28,16 @@ public class TemplateSpringAiApplication {
                 // Start the chat loop
                 while (true) {
                     //Record user's voice input
-                    audio.startRecording();
-                    System.out.print("\nRecording your question ... press <Enter> to stop! ");
-                    scanner.nextLine();
-                    audio.stopRecording();
+                    System.out.print("\nStart recording your question by press <R>, and then <Enter> to finish recording! ");
+                    if (scanner.hasNext() && scanner.nextLine().equalsIgnoreCase("R")) {
+                        audio.startRecording();
+                        scanner.nextLine();
+                        audio.stopRecording();
+                    }
 
                     System.out.print("PROCESSING ...\n");
-
                     // Send user's input to the AI model and get the response
                     AssistantMessage response = openAIService.multimodalAudioAndText(audio.getLastRecording());
-
                     // Print the text (e.g. transcription) response
                     System.out.println("\nASSISTANT: " + response.getContent());
                     // Play the audio response, NOT release in M4 yet
