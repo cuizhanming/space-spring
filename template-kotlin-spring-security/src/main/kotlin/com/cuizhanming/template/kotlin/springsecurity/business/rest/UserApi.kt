@@ -1,5 +1,9 @@
 package com.cuizhanming.template.kotlin.springsecurity.business.rest
 
+import jakarta.persistence.Entity
+import jakarta.persistence.Id
+import jakarta.persistence.Table
+import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -45,16 +49,17 @@ class UserController (val userService: UserService) {
             throw ResponseStatusException(HttpStatus.NOT_FOUND, "Can't find user")
     }
 
-    private fun User.toResponse() = UserResponse(id.toString(), email, role)
+    private fun User.toResponse() = UserResponse(id.toString(), name, email, role)
 
-    private fun UserRequest.toUser() = User(id = UUID.randomUUID(), email = email, password = password, role = Role.USER)
+    private fun UserRequest.toUser() = User(id = UUID.randomUUID(), name = name, email = email, password = password, role = Role.USER)
 
 }
 
 
 @Service
 class UserService(
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val jpaUserRepository: JpaUserRepository
 ) {
 
     fun createUser(user: User) : User?{
@@ -71,7 +76,7 @@ class UserService(
     }
 
     fun findAll(): List<User> {
-        return userRepository.findAll()
+        return jpaUserRepository.findAllByOrderByNameAsc()
     }
 
     fun deleteByUUID(id: UUID) =
@@ -79,20 +84,25 @@ class UserService(
 
 }
 
-@Repository
+@Repository("jpaUserRepository")
+interface JpaUserRepository: JpaRepository<User, UUID> {
+    fun findAllByOrderByNameAsc(): List<User>
+}
+
+@Repository("userRepository")
 class UserRepository (
     private val encoder: PasswordEncoder
 ){
 
     private val users = mutableListOf<User>(
         User(
-            UUID.randomUUID(), "email1@gmail.com", encoder.encode("password1"), Role.ADMIN
+            UUID.randomUUID(), "user1", "email1@gmail.com", encoder.encode("password1"), Role.ADMIN
         ),
         User(
-            UUID.randomUUID(), "email2@gmail.com", encoder.encode("password2"), Role.USER
+            UUID.randomUUID(), "user2", "email2@gmail.com", encoder.encode("password2"), Role.USER
         ),
         User(
-            UUID.randomUUID(), "email3@gmail.com", encoder.encode("password3"), Role.USER
+            UUID.randomUUID(), "user3", "email3@gmail.com", encoder.encode("password3"), Role.USER
         ),
     )
 
@@ -117,7 +127,6 @@ class UserRepository (
     fun deleteByEmail(email: String) =
         users.removeIf { it.email == email }
 
-
     fun deleteByUUID(id: UUID) : Boolean =
         users.removeIf { it.id == id }
 
@@ -130,20 +139,26 @@ class UserRepository (
 }
 
 data class UserRequest(
+    val name: String,
     val email: String,
     val password: String
 )
 
 data class UserResponse(
     val id: String,
+    val name: String,
     val email: String,
     val role: String
 ) {
-    constructor(id: String, email: String, role: Role) : this(id, email, role.name)
+    constructor(id:String, name:String, email:String, role:Role) : this(id, name, email, role.name)
 }
 
+@Entity
+@Table(name = "users")
 data class User(
+    @Id
     var id: UUID,
+    val name: String,
     val email: String,
     val password: String,
     val role: Role

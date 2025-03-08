@@ -1,9 +1,9 @@
 plugins {
 	kotlin("jvm") version "1.9.25"
 	kotlin("plugin.spring") version "1.9.25"
-	//[SpringBoot]STEP 00 import
-	id("org.springframework.boot") version "3.3.4"
-	id("io.spring.dependency-management") version "1.1.6"
+	kotlin("plugin.jpa") version "1.9.25"
+	id("org.springframework.boot") version "3.3.7"
+	id("io.spring.dependency-management") version "1.1.7"
 	id("com.github.ben-manes.versions") version "0.51.0"
 }
 
@@ -28,15 +28,10 @@ dependencies {
 	implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
 	/**
-	 * Spring Core
-	 */
-	implementation("org.springframework.boot:spring-boot-starter-aop")
-
-	/**
-	 * Spring Web
+	 * SpringBoot
 	 */
 	implementation("org.springframework.boot:spring-boot-starter-web")
-	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	implementation("org.springframework.boot:spring-boot-starter-aop")
 
 	/**
 	 * Spring GraphQL
@@ -44,17 +39,16 @@ dependencies {
 	//implementation("org.springframework.boot:spring-boot-starter-graphql")
 
 	/**
-	 * Spring Security
+	 * SpringBoot Security
 	 */
 	implementation("org.springframework.boot:spring-boot-starter-security")
-	testImplementation("org.springframework.security:spring-security-test")
-	//Java JWT by `auth0`
+	// Java JWT by `auth0`
 	implementation("io.jsonwebtoken:jjwt-api:${property("jjwt.version")}")
 	implementation("io.jsonwebtoken:jjwt-impl:${property("jjwt.version")}")
 	implementation("io.jsonwebtoken:jjwt-jackson:${property("jjwt.version")}")
 
 	/**
-	 * Spring DevTools
+	 * SpringBoot DevTools
 	 */
 	implementation("org.springframework.boot:spring-boot-starter-actuator")
 	runtimeOnly("org.springframework.boot:spring-boot-devtools") {
@@ -62,10 +56,31 @@ dependencies {
 	}
 
 	/**
-	 * Kotlin JUnit 5
+	 * SpringBoot Docker Compose
 	 */
+	runtimeOnly("org.springframework.boot:spring-boot-docker-compose")
+
+	/**
+	 * Tests with JUnit5
+	 */
+	testImplementation("org.springframework.boot:spring-boot-starter-test")
+	testImplementation("org.springframework.security:spring-security-test")
 	testImplementation("org.jetbrains.kotlin:kotlin-test-junit5")
 	testRuntimeOnly("org.junit.platform:junit-platform-launcher")
+
+	/**
+	 * Test with TestContainers following this article:
+	 * https://www.sivalabs.in/run-spring-boot-testcontainers-tests-at-jet-speed/
+	 */
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+	implementation("org.flywaydb:flyway-core")
+	implementation("org.flywaydb:flyway-database-postgresql")
+	runtimeOnly("org.postgresql:postgresql")
+	runtimeOnly("com.h2database:h2")
+	testImplementation("org.springframework.boot:spring-boot-testcontainers")
+	testImplementation("org.testcontainers:junit-jupiter")
+	testImplementation("org.testcontainers:postgresql")
+
 }
 
 kotlin {
