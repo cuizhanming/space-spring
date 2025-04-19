@@ -39,7 +39,7 @@ public class TemplateSpringAiApplication {
                     // Send user's input to the AI model and get the response
                     AssistantMessage response = openAIService.multimodalAudioAndText(audio.getLastRecording());
                     // Print the text (e.g. transcription) response
-                    System.out.println("\nASSISTANT: " + response.getContent());
+                    System.out.println("\nASSISTANT: " + response.getText());
                     // Play the audio response, NOT release in M4 yet
                     // Audio.play(response.getMedia().get(0).getDataAsByteArray());
                 }
