@@ -43,7 +43,7 @@
 					"raw": "{\n    \"accessKey\": \"ACCESS_KEY\",\n    \"secretKey\": \"ACCESS_SECRET_KEY\",\n    \"certificate\": null,\n    \"privateKey\": null\n}"
 				},
 				"url": {
-					"raw": "{{hostname}}/api/credential",
+					"raw": "{{hostname}}/api/mysql/credential",
 					"host": [
 						"{{hostname}}"
 					],
@@ -93,7 +93,7 @@
 					"raw": "{\n    \"accessKey\": \"ACCESS_KEY\",\n    \"secretKey\": \"ACCESS_SECRET_KEY\",\n    \"certificate\": null,\n    \"privateKey\": null\n}"
 				},
 				"url": {
-					"raw": "{{hostname}}/data/credential",
+					"raw": "{{hostname}}/api/cassandra/credential",
 					"host": [
 						"{{hostname}}"
 					],
@@ -137,7 +137,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "{{hostname}}/api/credential/{{cid1}}",
+					"raw": "{{hostname}}/api/mysql/credential/{{cid1}}",
 					"host": [
 						"{{hostname}}"
 					],
@@ -182,7 +182,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "{{hostname}}/data/credential/{{cid2}}",
+					"raw": "{{hostname}}/api/cassandra/credential/{{cid2}}",
 					"host": [
 						"{{hostname}}"
 					],
@@ -223,7 +223,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "{{hostname}}/api/credentials",
+					"raw": "{{hostname}}/api/mysql/credentials",
 					"host": [
 						"{{hostname}}"
 					],
@@ -263,7 +263,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "{{hostname}}/data/credentials",
+					"raw": "{{hostname}}/api/cassandra/credentials",
 					"host": [
 						"{{hostname}}"
 					],
@@ -313,7 +313,7 @@
 					"raw": "{\n    \"accessKey\": \"ACCESS_KEY\",\n    \"secretKey\": \"ACCESS_SECRET_KEY\",\n    \"certificate\": null,\n    \"privateKey\": null\n}"
 				},
 				"url": {
-					"raw": "{{hostname}}/api/credentials/{{cid1}}",
+					"raw": "{{hostname}}/api/mysql/credentials/{{cid1}}",
 					"host": [
 						"{{hostname}}"
 					],
@@ -364,7 +364,7 @@
 					"raw": "{\n    \"accessKey\": \"ACCESS_KEY\",\n    \"secretKey\": \"ACCESS_SECRET_KEY\",\n    \"certificate\": null,\n    \"privateKey\": null\n}"
 				},
 				"url": {
-					"raw": "{{hostname}}/data/credentials/{{cid2}}",
+					"raw": "{{hostname}}/api/cassandra/credentials/{{cid2}}",
 					"host": [
 						"{{hostname}}"
 					],
@@ -399,7 +399,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "{{hostname}}/api/credentials/{{cid1}}",
+					"raw": "{{hostname}}/api/mysql/credentials/{{cid1}}",
 					"host": [
 						"{{hostname}}"
 					],
@@ -434,7 +434,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "{{hostname}}/data/credentials/{{cid2}}",
+					"raw": "{{hostname}}/api/cassandra/credentials/{{cid2}}",
 					"host": [
 						"{{hostname}}"
 					],

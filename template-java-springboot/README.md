@@ -24,3 +24,19 @@ docker-compose build
 ```bash
 newman run src/test/resources/newman/test.postman_collection.json -e src/test/resources/newman/Local.postman_environment.json
 ```
+
+## MySQL
+
+- [Spring Data MySQL](https://github.com/spring-guides/gs-accessing-data-mysql/tree/main)
+
+## Cassandra
+
+- []()
+
+## MongoDB
+
+- []()
+
+## CloudSQL
+
+- []()
