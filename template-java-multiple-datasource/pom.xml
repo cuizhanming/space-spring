@@ -4,11 +4,11 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.cuizhanming.template</groupId>
-	<artifactId>springboot-multiple-datasource</artifactId>
+	<artifactId>template-java-multiple-datasource</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>springboot-multiple-datasource</name>
+	<name>template-java-multiple-datasource</name>
 	<description>Multiple Data Source Sample in Spring Boot</description>
 
 	<parent>
