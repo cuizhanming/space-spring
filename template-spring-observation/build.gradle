@@ -1,0 +1,99 @@
+ext.buildTime = new Date().toInstant()
+
+buildscript {
+    ext.springBootVersion = '3.+'
+    ext.springCloudVersion = '2025.0.0'
+    ext.springDataVersion = '2025.0.0'
+
+    configurations.classpath {
+        resolutionStrategy.activateDependencyLocking()
+    }
+
+    repositories {
+        gradlePluginPortal()
+    }
+    dependencies {
+        classpath 'org.ajoberstar.grgit:grgit-gradle:5.+'
+        // Pin gradle-git-properties to 2.4.x because of https://github.com/n0mer/gradle-git-properties/pull/235
+        // See: https://github.com/n0mer/gradle-git-properties/issues/240
+        // See: https://github.com/n0mer/gradle-git-properties/issues/242
+        classpath 'com.gorylenko.gradle-git-properties:gradle-git-properties:2.4.+'
+        classpath 'org.cyclonedx:cyclonedx-gradle-plugin:2.+'
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:$springBootVersion"
+    }
+}
+
+task clean
+
+apply plugin: 'org.ajoberstar.grgit'
+apply from: "$rootDir/gradle/idea.gradle"
+
+allprojects {
+    task cleanAll {
+        description = 'Deletes the build directory and the IDE files and directories'
+        group = 'build'
+        dependsOn clean, cleanIdea, cleanIdeaWorkspace
+        doLast {
+            delete 'out', '.idea'
+        }
+    }
+}
+
+subprojects {
+    repositories {
+        mavenCentral()
+    }
+
+    if (project.name != 'load-gen') {
+        apply plugin: 'java'
+        apply from: "$rootDir/gradle/dependency-locking.gradle"
+
+        group = 'org.example.teahouse'
+        version = "${grgit.head().abbreviatedId}.${buildTime.toEpochMilli()}"
+
+        dependencies {
+            ['annotationProcessor', 'compileOnly', 'implementation', 'runtimeOnly', 'testImplementation'].each { conf ->
+                dependencies.add(conf, platform("org.springframework.boot:spring-boot-dependencies:$springBootVersion"))
+                dependencies.add(conf, platform("org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"))
+                dependencies.add(conf, platform("org.springframework.data:spring-data-bom:$springDataVersion"))
+            }
+            testImplementation platform('org.junit:junit-bom:latest.release')
+
+            annotationProcessor 'org.projectlombok:lombok'
+            compileOnly 'org.projectlombok:lombok'
+
+            testImplementation 'org.junit.jupiter:junit-jupiter'
+            testImplementation 'io.rest-assured:rest-assured'
+            testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+        }
+
+        java {
+            toolchain { languageVersion = JavaLanguageVersion.of(24) }
+        }
+
+        jar.manifest.attributes(
+            'Name': project.name,
+            'Implementation-Build-Date': buildTime,
+            'Implementation-Title': project.name,
+            'Implementation-Version': project.version,
+            'Implementation-Vendor': project.group,
+            'Commit-AbbreviatedId': grgit.head().abbreviatedId,
+            'Commit-Id': grgit.head().id,
+            'Commit-Date': grgit.head().getDateTime().toInstant(),
+            'Source-Path': grgit.remote.list().findResult { it.name == 'origin' ? it.url : null },
+            'Created-By': "Gradle ${gradle.gradleVersion}",
+            'Built-By': System.properties['user.name'],
+            'JDK': org.gradle.internal.jvm.Jvm.current(),
+            'OS': org.gradle.internal.os.OperatingSystem.current()
+        )
+
+        test {
+            useJUnitPlatform()
+        }
+    }
+}
+
+wrapper {
+    distributionType = Wrapper.DistributionType.BIN
+    // gradleVersion = new groovy.json.JsonSlurper().parseText('https://services.gradle.org/versions/current'.toURL().text).version
+}

@@ -1,0 +1,13 @@
+.gradle/
+build/
+
+.idea/
+out/
+*.iws
+*.iml
+*.ipr
+.vscode/
+
+tea-service/docs/index.html
+
+logs/

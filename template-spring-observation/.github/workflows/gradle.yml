@@ -1,0 +1,25 @@
+# This workflow will build a Java project with Gradle
+# For more information see: https://help.github.com/actions/language-and-framework-guides/building-and-testing-java-with-gradle
+
+name: Build
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-java@v4
+      with:
+        distribution: 'liberica'
+        java-version: |
+          24
+        cache: 'gradle'
+        check-latest: true
+    - name: Validate Gradle wrapper
+      uses: gradle/actions/wrapper-validation@v3
+    - name: Build with Gradle
+      run: ./gradlew build --no-daemon
