@@ -26,10 +26,3 @@ plugins {
 
 gradle lintGradle -PgradleLint.rules=unused-dependency
 ```
-
-
-```mermaid
-classDiagram
-    Credit Cert o-- Tax Credit
-
-```
