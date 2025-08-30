@@ -30,6 +30,5 @@ build/
 
 ### VS Code ###
 .vscode/
-/template-java-springboot-2023/.gradle/
-/template-java-springboot/.mvn/wrapper/maven-wrapper.jar
-/template-java-springboot/.mvn/wrapper/maven-wrapper.properties
+**.gradle/
+**.mvn/
