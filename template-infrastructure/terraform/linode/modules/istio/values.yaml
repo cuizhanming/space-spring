@@ -1,9 +1,0 @@
-global:
-  proxy:
-    autoInject: enabled
-  controlPlaneSecurityEnabled: true
-  mtls:
-    enabled: true
-
-pilot:
-  traceSampling: 100.0
