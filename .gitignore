@@ -32,3 +32,5 @@ build/
 .vscode/
 **.gradle/
 **.mvn/
+
+.DS_Store
