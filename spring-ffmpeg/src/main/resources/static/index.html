@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>StreamFlow - Local Video Streaming</title>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg: #0f172a;
+            --surface: #1e293b;
+            --text: #f8fafc;
+            --text-muted: #94a3b8;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1000px;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            font-weight: 600;
+            font-size: 2.5rem;
+            margin: 0;
+            background: linear-gradient(135deg, #818cf8 0%, #c084fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        p.subtitle {
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .main-grid {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+        }
+
+        @media (max-width: 800px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .video-section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 400px;
+        }
+
+        video {
+            width: 100%;
+            border-radius: 8px;
+            background: #000;
+            max-height: 500px;
+        }
+
+        .controls-section {
+            background: var(--surface);
+            border-radius: 16px;
+            padding: 30px;
+            box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.5);
+            height: fit-content;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        input {
+            width: 100%;
+            padding: 12px;
+            background: var(--bg);
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: var(--text);
+            font-family: inherit;
+            box-sizing: border-box;
+            transition: border-color 0.2s;
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 30px;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+            transform: translateY(-1px);
+        }
+
+        .btn-danger {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+
+        .btn-danger:hover {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .btn-danger:disabled,
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status-badge {
+            margin-top: 20px;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.9rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .status-badge.active {
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+        }
+
+        .status-badge.error {
+            background: rgba(239, 68, 68, 0.1);
+            color: var(--error);
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="container">
+        <header>
+            <h1>StreamFlow</h1>
+            <p class="subtitle">Local Video Streaming with Spring Boot & FFmpeg</p>
+        </header>
+
+        <div class="main-grid">
+            <div class="video-section">
+                <video id="videoElement" controls>
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+
+            <div class="controls-section">
+                <div class="form-group">
+                    <label for="videoFilename">Video Filename</label>
+                    <input type="text" id="videoFilename" placeholder="example.mp4" value="test.mp4">
+                </div>
+
+                <div class="form-group">
+                    <label for="streamKey">Stream Key</label>
+                    <input type="text" id="streamKey" placeholder="Enter a unique key" value="mystream">
+                </div>
+
+                <div class="btn-group">
+                    <button id="startBtn" class="btn-primary">Start Stream</button>
+                    <button id="stopBtn" class="btn-danger" disabled>Stop Stream</button>
+                </div>
+
+                <div id="status" class="status-badge">
+                    Ready to stream
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/flv.js@1.6.2/dist/flv.min.js"></script>
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const stopBtn = document.getElementById('stopBtn');
+        const statusDiv = document.getElementById('status');
+        const videoElement = document.getElementById('videoElement');
+
+        let flvPlayer = null;
+
+        function updateStatus(msg, type = '') {
+            statusDiv.textContent = msg;
+            statusDiv.className = 'status-badge ' + type;
+        }
+
+        startBtn.addEventListener('click', async () => {
+            const videoFilename = document.getElementById('videoFilename').value;
+            const streamKey = document.getElementById('streamKey').value;
+
+            if (!videoFilename || !streamKey) {
+                updateStatus('Please enter filename and stream key', 'error');
+                return;
+            }
+
+            updateStatus('Starting stream...', 'active');
+            startBtn.disabled = true;
+
+            try {
+                const response = await fetch('/api/stream/start', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ videoFilename, streamKey })
+                });
+
+                if (!response.ok) throw new Error('Failed to start');
+
+                const data = await response.json();
+                console.log('Stream started:', data);
+
+                // Wait a bit for FFmpeg to start streaming
+                updateStatus('Waiting for stream...', 'active');
+                await new Promise(resolve => setTimeout(resolve, 5000));
+
+                stopBtn.disabled = false;
+
+                // Initialize Player
+                if (flvjs.isSupported()) {
+                    if (flvPlayer) {
+                        flvPlayer.destroy();
+                    }
+
+                    console.log('Creating FLV player for:', data.flvUrl);
+
+                    flvPlayer = flvjs.createPlayer({
+                        type: 'flv',
+                        url: data.flvUrl,
+                        isLive: true
+                    }, {
+                        enableWorker: false,
+                        enableStashBuffer: false,
+                        autoCleanupSourceBuffer: true
+                    });
+
+                    flvPlayer.attachMediaElement(videoElement);
+
+                    flvPlayer.on(flvjs.Events.ERROR, (errorType, errorDetail, errorInfo) => {
+                        console.error('FLV Player Error:', errorType, errorDetail, errorInfo);
+                        updateStatus('Player error: ' + errorDetail, 'error');
+                    });
+
+                    flvPlayer.on(flvjs.Events.LOADING_COMPLETE, () => {
+                        console.log('Loading complete');
+                    });
+
+                    flvPlayer.on(flvjs.Events.METADATA_ARRIVED, () => {
+                        console.log('Metadata arrived');
+                        updateStatus('Playing stream', 'active');
+                    });
+
+                    flvPlayer.load();
+
+                    // Try to play
+                    videoElement.play().catch(err => {
+                        console.error('Play error:', err);
+                        updateStatus('Click video to play', 'active');
+                    });
+                } else {
+                    updateStatus('FLV not supported in this browser', 'error');
+                }
+
+            } catch (e) {
+                console.error(e);
+                updateStatus('Error starting stream', 'error');
+                startBtn.disabled = false;
+            }
+        });
+
+        stopBtn.addEventListener('click', async () => {
+            const streamKey = document.getElementById('streamKey').value;
+
+            try {
+                await fetch('/api/stream/stop', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ streamKey })
+                });
+
+                updateStatus('Stream stopped');
+                startBtn.disabled = false;
+                stopBtn.disabled = true;
+
+                if (flvPlayer) {
+                    flvPlayer.pause();
+                    flvPlayer.unload();
+                    flvPlayer.destroy();
+                    flvPlayer = null;
+                }
+
+            } catch (e) {
+                console.error(e);
+                updateStatus('Error stopping stream', 'error');
+            }
+        });
+    </script>
+
+</body>
+
+</html>

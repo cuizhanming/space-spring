@@ -1,0 +1,17 @@
+server:
+  port: 8080
+
+stream:
+  zlm-host: localhost
+  rtmp-port: 1935
+  http-port: 8099
+  ffmpeg-image: jrottenberg/ffmpeg:4.4-ubuntu
+  # Default video path, can be overridden
+  video-path: /Users/cui/Videos/
+  docker-video-mount: /videos
+
+spring:
+  servlet:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
