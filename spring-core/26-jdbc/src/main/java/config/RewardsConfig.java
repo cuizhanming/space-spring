@@ -23,32 +23,27 @@ public class RewardsConfig {
 	DataSource dataSource;
 
 	@Bean
-	public JdbcTemplate jdbcTemplate() {
-		return new JdbcTemplate(dataSource);
+	public RewardNetwork rewardNetwork() {
+		return new RewardNetworkImpl(
+				accountRepository(),
+				restaurantRepository(),
+				rewardRepository());
 	}
 
 	@Bean
-	public RewardNetwork rewardNetwork(){
-		return new RewardNetworkImpl(
-			accountRepository(), 
-			restaurantRepository(), 
-			rewardRepository());
-	}
-	
-	@Bean
-	public AccountRepository accountRepository(){
+	public AccountRepository accountRepository() {
 		JdbcAccountRepository repository = new JdbcAccountRepository(jdbcTemplate());
 		return repository;
 	}
-	
+
 	@Bean
-	public RestaurantRepository restaurantRepository(){
+	public RestaurantRepository restaurantRepository() {
 		JdbcRestaurantRepository repository = new JdbcRestaurantRepository(jdbcTemplate());
 		return repository;
 	}
-	
+
 	@Bean
-	public RewardRepository rewardRepository(){
+	public RewardRepository rewardRepository() {
 		JdbcRewardRepository repository = new JdbcRewardRepository(jdbcTemplate());
 		return repository;
 	}

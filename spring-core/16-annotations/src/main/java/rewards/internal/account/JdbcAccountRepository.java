@@ -15,12 +15,13 @@ import java.sql.SQLException;
 /**
  * Loads accounts from a data source using the JDBC API.
  */
-@Repository
-/* xTODO-05: Let this class to be found in component-scanning
+// @Repository
+/*
+ * xTODO-05: Let this class to be found in component-scanning
  * - Annotate the class with an appropriate stereotype annotation
- *   to cause component-scan to detect and load this bean.
+ * to cause component-scan to detect and load this bean.
  * - Inject dataSource by annotating setDataSource() method
- *   with @Autowired.
+ * with @Autowired.
  */
 @Repository
 public class JdbcAccountRepository implements AccountRepository {
@@ -116,7 +117,8 @@ public class JdbcAccountRepository implements AccountRepository {
 	 *
 	 * @param rs the set of rows returned from the query
 	 * @return the mapped Account aggregate
-	 * @throws SQLException an exception occurred extracting data from the result set
+	 * @throws SQLException an exception occurred extracting data from the result
+	 *                      set
 	 */
 	private Account mapAccount(ResultSet rs) throws SQLException {
 		Account account = null;
@@ -138,11 +140,13 @@ public class JdbcAccountRepository implements AccountRepository {
 	}
 
 	/**
-	 * Maps the beneficiary columns in a single row to an AllocatedBeneficiary object.
+	 * Maps the beneficiary columns in a single row to an AllocatedBeneficiary
+	 * object.
 	 *
 	 * @param rs the result set with its cursor positioned at the current row
 	 * @return an allocated beneficiary
-	 * @throws SQLException an exception occurred extracting data from the result set
+	 * @throws SQLException an exception occurred extracting data from the result
+	 *                      set
 	 */
 	private Beneficiary mapBeneficiary(ResultSet rs) throws SQLException {
 		String name = rs.getString("BENEFICIARY_NAME");
