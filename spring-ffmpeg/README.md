@@ -8,6 +8,7 @@
 - **[Full Technical Article](docs/ARTICLE.md)** 📖
 - **[Documentation Index](docs/INDEX.md)** 📚
 - **[Product Requirements](docs/PRD.md)** 🎯
+- **Demo Video**: [demo.mov](docs/demo.mov) 🎥
 
 ## 📁 Project Structure
 
