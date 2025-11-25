@@ -529,7 +529,7 @@ The complete source code is available in the `spring-ffmpeg` directory with:
 
 ---
 
-**Author**: Built with Spring Boot 3.3, Java 21, and modern web technologies  
+**Author**: Built with Spring Boot 4.0, Java 21, and modern web technologies  
 **Date**: November 2025  
 **License**: Educational purposes
 

@@ -37,6 +37,23 @@ This project includes comprehensive documentation in the `/docs` folder. Here's 
 - Implementation phases
 - FFmpeg command strategy
 
+### 5. **RUNTIME_DEMO.md** - Live Demo Walkthrough 🎬
+**Best for**: Seeing the application in action
+- Complete runtime demonstration
+- Step-by-step walkthrough
+- API examples with real responses
+- Performance metrics
+- Behind-the-scenes details
+- Visual architecture diagrams
+
+### 6. **SPRING_BOOT_4_UPGRADE.md** - Upgrade Guide 🔄
+**Best for**: Understanding the Spring Boot 4.0 migration
+- Migration steps
+- Dependency changes
+- Configuration updates
+- Breaking changes
+- Verification steps
+
 ## 🎥 Video Walkthrough
 
 **Location**: `streamflow_walkthrough.webp`
@@ -96,7 +113,7 @@ spring-ffmpeg/
 → Check `README.md` (root) and `src/main/resources/application.yml`
 
 **...see it in action**
-→ Watch the walkthrough video (see README)
+→ Watch `docs/RUNTIME_DEMO.md` or the walkthrough video
 
 **...understand the architecture**
 → Read `docs/PRD.md`
@@ -119,7 +136,7 @@ spring-ffmpeg/
 
 ✅ **Modern Tech Stack**
 - Java 21
-- Spring Boot 3.3
+- Spring Boot 4.0
 - Latest FFmpeg
 - flv.js for playback
 
@@ -140,7 +157,7 @@ spring-ffmpeg/
 | Component | Technology | Version |
 |-----------|-----------|---------|
 | Language | Java | 21 |
-| Framework | Spring Boot | 3.3.0 |
+| Framework | Spring Boot | 4.0.0 |
 | Build Tool | Maven | 3.9+ |
 | Media Server | ZLMediaKit | master (Docker) |
 | Transcoder | FFmpeg | 4.4 (Docker) |

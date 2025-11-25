@@ -28,7 +28,7 @@ spring-ffmpeg/
 ## 🎯 What is StreamFlow?
 
 StreamFlow enables you to stream local video files through your browser using:
-- **Spring Boot 3.3** backend with RESTful API
+- **Spring Boot 4.0** backend with RESTful API
 - **FFmpeg** running in Docker containers (no local installation!)
 - **ZLMediaKit** media server for RTMP → HTTP-FLV conversion
 - **flv.js** player for smooth browser playback
@@ -70,7 +70,7 @@ open http://localhost:8080
 ## 🌟 Key Features
 
 ✅ **No Local FFmpeg** - Everything runs in Docker  
-✅ **Modern Stack** - Java 21, Spring Boot 3.3  
+✅ **Modern Stack** - Java 21, Spring Boot 4.0  
 ✅ **Beautiful UI** - Premium web interface  
 ✅ **Low Latency** - Optimized for real-time streaming  
 ✅ **Production Ready** - Error handling, logging, monitoring  
@@ -91,7 +91,7 @@ See the [Quick Start Guide](docs/QUICK_START.md) for details.
 | Component | Technology | Version |
 |-----------|-----------|---------|
 | Language | Java | 21 |
-| Framework | Spring Boot | 3.3.0 |
+| Framework | Spring Boot | 4.0.0 |
 | Media Server | ZLMediaKit | Docker (latest) |
 | Transcoder | FFmpeg | Docker 4.4 |
 | Player | flv.js | 1.6.2 |

@@ -11,7 +11,7 @@ stream:
   docker-video-mount: /videos
 
 spring:
-  servlet:
+  web:
     multipart:
       max-file-size: 1GB
       max-request-size: 1GB
