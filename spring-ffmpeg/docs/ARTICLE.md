@@ -12,7 +12,7 @@ In this article, we'll build a complete local video streaming service from scrat
 
 **Tech Stack:**
 - Java 21
-- Spring Boot 3.3
+- Spring Boot 4.0 (latest with modular architecture)
 - FFmpeg (Docker)
 - ZLMediaKit (Docker)
 - flv.js 1.6
@@ -114,10 +114,17 @@ spring-ffmpeg/
 Add these dependencies to `pom.xml`:
 
 ```xml
+<parent>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-parent</artifactId>
+    <version>4.0.0</version>
+</parent>
+
 <dependencies>
+    <!-- Spring Boot 4.0 uses modular starters -->
     <dependency>
         <groupId>org.springframework.boot</groupId>
-        <artifactId>spring-boot-starter-web</artifactId>
+        <artifactId>spring-boot-starter-webmvc</artifactId>
     </dependency>
     
     <dependency>
@@ -125,8 +132,20 @@ Add these dependencies to `pom.xml`:
         <artifactId>commons-exec</artifactId>
         <version>1.4.0</version>
     </dependency>
+    
+    <!-- Spring Boot 4.0 requires explicit test starter -->
+    <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-webmvc-test</artifactId>
+        <scope>test</scope>
+    </dependency>
 </dependencies>
 ```
+
+**Spring Boot 4.0 Changes:**
+- Replaced `spring-boot-starter-web` with `spring-boot-starter-webmvc` (new modular design)
+- Added `spring-boot-starter-webmvc-test` for testing
+- Based on Jakarta EE 11 and Spring Framework 7.x
 
 ### Configuration Class
 
@@ -162,7 +181,17 @@ stream:
   ffmpeg-image: jrottenberg/ffmpeg:4.4-ubuntu
   video-path: /Users/cui/Videos/
   docker-video-mount: /videos
+
+spring:
+  web:
+    multipart:
+      max-file-size: 1GB
+      max-request-size: 1GB
 ```
+
+**Spring Boot 4.0 Configuration Changes:**
+- Multipart configuration moved from `spring.servlet.multipart` to `spring.web.multipart`
+- Better alignment with Spring Framework 7.x structure
 
 ### Stream Service
 
@@ -492,10 +521,37 @@ For production:
 - Use Redis for distributed stream tracking
 - Deploy ZLMediaKit cluster for high availability
 
+## Spring Boot 4.0 Upgrade
+
+### What Changed in Spring Boot 4.0
+
+This project has been upgraded to **Spring Boot 4.0**, which introduces a new modular architecture:
+
+**Key Changes:**
+1. **Modular Dependencies** - Smaller, focused modules instead of monolithic jars
+2. **Configuration Updates** - Multipart config path changed
+3. **Jakarta EE 11** - Updated to latest Jakarta EE standards
+4. **Spring Framework 7.x** - Based on the latest Spring Framework
+
+**Migration Steps:**
+- Updated parent version: `3.3.0` → `4.0.0`
+- Replaced `spring-boot-starter-web` with `spring-boot-starter-webmvc`
+- Added `spring-boot-starter-webmvc-test` for testing
+- Updated configuration: `spring.servlet.multipart` → `spring.web.multipart`
+
+**Benefits:**
+- ✅ Smaller JAR sizes with modular dependencies
+- ✅ Better dependency management
+- ✅ Improved performance and startup time
+- ✅ Latest security updates and features
+
+For detailed migration guide, see `docs/SPRING_BOOT_4_UPGRADE.md`
+
 ## Conclusion
 
 We've built a complete, modern video streaming service with:
 
+✅ **Spring Boot 4.0** - Latest version with modular architecture  
 ✅ **Clean Architecture** - Separation of concerns with Spring Boot  
 ✅ **Docker Integration** - No local FFmpeg installation needed  
 ✅ **Modern UI** - Beautiful interface with flv.js  
@@ -511,18 +567,24 @@ Consider these enhancements:
 - Add stream recording
 - Implement adaptive bitrate streaming
 - Add WebRTC support for ultra-low latency
+- Explore Spring Boot 4.0's new features
+- Implement virtual threads for better concurrency
 
 ### Source Code
 
 The complete source code is available in the `spring-ffmpeg` directory with:
-- Full implementation
+- Full implementation with Spring Boot 4.0
 - Comprehensive README
 - Configuration examples
 - Troubleshooting guide
+- Runtime demo walkthrough
+- Spring Boot 4.0 upgrade guide
 
 ## References
 
-- [Spring Boot Documentation](https://spring.io/projects/spring-boot)
+- [Spring Boot 4.0 Documentation](https://spring.io/projects/spring-boot)
+- [Spring Boot 4.0 Migration Guide](https://github.com/spring-projects/spring-boot/wiki/Spring-Boot-4.0-Migration-Guide)
+- [Spring Boot 4.0 Modular Design Blog](https://spring.io/blog/2025/10/28/modularizing-spring-boot/)
 - [ZLMediaKit GitHub](https://github.com/ZLMediaKit/ZLMediaKit)
 - [FFmpeg Documentation](https://ffmpeg.org/documentation.html)
 - [flv.js GitHub](https://github.com/bilibili/flv.js)
